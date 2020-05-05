@@ -20,11 +20,20 @@ func randomString(length int) string {
 	return string(b)
 }
 
+func explodingMetric() string {
+	return "eagle_" + randomString(8) + "{label=\"this_is_fine\"} 1\n"
+}
+
+func explodingLabels() string {
+	return "eagle_labels{" + randomString(8) + "=\"this_is_fine\"} 1\n"
+}
+
+func explodingLabelValues() string {
+	return "eagle_label_values{label=\"" + randomString(8) + "\"} 1\n"
+}
+
 func metrics(w http.ResponseWriter, req *http.Request) {
-
-	var body = "label_explosion{exploding_label=\"" + randomString(8) + "\"} 1\n" +
-		"metric_explosion_" + randomString(8) + "{label=\"this_is_fine\"} 1\n"
-
+	body := explodingMetric() + explodingLabels() + explodingLabelValues()
 	fmt.Fprintf(w, body)
 }
 
