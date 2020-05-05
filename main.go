@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+	"strconv"
 )
 
 var (
@@ -30,11 +31,11 @@ func randomString(length int) string {
 }
 
 // This should cause prometheus `scrape_samples_scraped` metric to constantly increase
-// Additionally this will cause `prometheus_tsdb_head_series_created_total` to increase even more
 func explodingSamples() string {
 	buffer := ""
 	for i := 0; i < counter; i++ {
-		buffer += "eagle_" + randomString(8) + "{label=\"this_is_fine\"} 1\n"
+		c := strconv.Itoa(i)
+		buffer += "eagle_sample_" + c + "{label=\"this_is_fine\"} 1\n"
 	}
 	counter++
 	return buffer
