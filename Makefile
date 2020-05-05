@@ -11,7 +11,7 @@ BIN?=eagle
 VERSION?=$(shell git rev-parse --short HEAD)
 DOCKER_REPO?=quay.io/paulfantom/eagle
 
-ALL_ARCH=amd64 arm arm64 ppc64le s390x
+ALL_ARCH=amd64 arm arm64
 ALL_PLATFORMS=$(addprefix linux/,$(ALL_ARCH))
 ALL_BINARIES ?= $(addprefix $(OUT_DIR)/$(BIN)-, \
 				$(addprefix linux-,$(ALL_ARCH)))
