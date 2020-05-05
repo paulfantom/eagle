@@ -1,0 +1,15 @@
+---
+name: Release Container Images
+on:
+  push:
+    tags:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: Build and publish container images
+        run: make push VERSION=${{ steps.get_version.outputs.VERSION }}
