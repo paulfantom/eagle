@@ -12,4 +12,7 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Build and publish container images
-        run: make push VERSION=${{ steps.get_version.outputs.VERSION }}
+        run: |
+          echo "${{ secrets.QUAY_PASSWORD }}" | docker login -u "${{ secrets.QUAY_USERNAME }}" --password-stdin quay.io
+          make push VERSION=${{ steps.get_version.outputs.VERSION }}
+          docker logout quay.io
