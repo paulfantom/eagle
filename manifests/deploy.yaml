@@ -35,7 +35,7 @@ spec:
         app.kubernetes.io/name: eagle
     spec:
       containers:
-      - image: quay.io/paulfantom/eagle
+      - image: quay.io/paulfantom/eagle:master
         imagePullPolicy: Always
         name: eagle
         ports:
