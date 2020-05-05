@@ -16,6 +16,11 @@ ALL_PLATFORMS=$(addprefix linux/,$(ALL_ARCH))
 ALL_BINARIES ?= $(addprefix $(OUT_DIR)/$(BIN)-, \
 				$(addprefix linux-,$(ALL_ARCH)))
 
+all: clean build
+
+clean:
+	rm -rf $(OUT_DIR)
+	rm -f manifests-tool
 
 crossbuild: $(ALL_BINARIES)
 
@@ -54,4 +59,4 @@ manifest-push: manifest-tool
 
 push: crossbuild manifest-tool $(addprefix push-,$(ALL_ARCH)) manifest-push
 
-.PHONY: all crossbuild build container push push-% manifest-push
+.PHONY: all clean crossbuild build container push push-% manifest-push
