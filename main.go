@@ -1,12 +1,14 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"math/rand"
 	"net/http"
 	"time"
 )
 
+var tempo = flag.Int("tempo", 2, "define number of metric groups exposed in one request")
 var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 const charset = "abcdefghijklmnopqrstuvwxyz" +
@@ -33,11 +35,15 @@ func explodingLabelValues() string {
 }
 
 func metrics(w http.ResponseWriter, req *http.Request) {
-	body := explodingMetric() + explodingLabels() + explodingLabelValues()
+	body := ""
+	for i := 0; i < *tempo; i++ {
+		body += explodingMetric() + explodingLabels() + explodingLabelValues()
+	}
 	fmt.Fprintf(w, body)
 }
 
 func main() {
+	flag.Parse()
 
 	http.HandleFunc("/metrics", metrics)
 
