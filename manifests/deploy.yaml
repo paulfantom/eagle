@@ -16,6 +16,22 @@ spec:
   selector:
     app.kubernetes.io/name: eagle
 ---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: eagle
+    app.kubernetes.io/component: exporter
+  name: eagle
+  # namespace: eagle
+spec:
+  endpoints:
+  - port: metrics
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: eagle
+      app.kubernetes.io/component: exporter
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
