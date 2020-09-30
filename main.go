@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
-	"time"
 	"strconv"
+	"time"
 )
 
 var (
@@ -50,6 +50,7 @@ func explodingLabelValues() string {
 }
 
 func metrics(w http.ResponseWriter, req *http.Request) {
+	fmt.Println(req.Host)
 	body := ""
 	for i := 0; i < *tempo; i++ {
 		if *samplesExplosion {
