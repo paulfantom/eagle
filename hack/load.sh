@@ -5,7 +5,7 @@
 # of eagle replicas in those namespaces.
 # Example usage:
 #
-#   ./cardinality.sh ../manifests/deploy.yaml 50 20
+#   ./load.sh ../manifests/simple.yaml 50 20
 # 
 # This will create 50 namespaces and deploy 20 replicas of eagle application
 # in each namespace. Effectively creating:
@@ -14,7 +14,7 @@
 #   - 50 service monitors
 #   - 1000 eagle pods
 
-BASE="${1:-'../manifests/deploy.yaml'}"
+BASE="${1:-'../manifests/simple.yaml'}"
 TOTAL_NAMESPACES="${2:-1}"
 REPLICAS_PER_NAMESPACE="${3:-1}"
 
@@ -22,4 +22,5 @@ for i in $(seq 1 $TOTAL_NAMESPACES); do
     NAMESPACE="test-${i}"
     kubectl create namespace ${NAMESPACE}
     kubectl apply -n ${NAMESPACE} -f "${BASE}"
+    kubectl scale deployment eagle -n ${NAMESPACE} --replicas="${REPLICAS_PER_NAMESPACE}"
 done
